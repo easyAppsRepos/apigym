@@ -43,7 +43,7 @@ ${req.body.profile_picture}
 
   */
     Promise.all([
-    db(`SELECT rc.*, c.imagenUrl, c.nombre 
+    db(`SELECT rc.*, c.* 
         FROM reservaClase as rc, clase as c
         WHERE c.idClase = rc.idClase AND rc.fecha > CURRENT_TIMESTAMP
         ORDER BY rc.fecha ASC LIMIT 1`),
