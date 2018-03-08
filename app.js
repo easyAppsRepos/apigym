@@ -31,6 +31,43 @@ expressApp.set('view engine', 'jade');
 expressApp.use(express.static(path.join(__dirname, 'public')));
 
 
+  expressApp.get('/getDataHome', function(req, res) {
+  /* 
+  Proxima clase query
+
+  SELECT rc.*, c.imagenUrl, c.nombre 
+  FROM reservaClase as rc, clase as c
+  WHERE c.idClase = rc.idClase AND rc.fecha > CURRENT_TIMESTAMP
+  ORDER BY rc.fecha ASC LIMIT 1
+${req.body.profile_picture}
+
+  */
+    Promise.all([
+    db(`SELECT rc.*, c.imagenUrl, c.nombre 
+        FROM reservaClase as rc, clase as c
+        WHERE c.idClase = rc.idClase AND rc.fecha > CURRENT_TIMESTAMP
+        ORDER BY rc.fecha ASC LIMIT 1`),
+    db(`SELECT * FROM actividad
+        ORDER BY RAND()
+        LIMIT 1`)
+    ]).then((data) => {
+        console.log(data);
+        res.json(data);
+    }).catch(err => res.send(err).status(500));
+  
+  });
+
+
+
+
+
+
+///////********************************VIEJO BORRAR PARA ABAJO EN PRODUCTION ****************
+//**************ONLY DEVELOP******
+
+
+
+
   expressApp.post('/addUsuario', (req, res) => {
 
 // console.log(req.body);
@@ -113,23 +150,6 @@ expressApp.get('/userlist', function(req, res) {
 
 });
 
-expressApp.get('/getPublisTodas', function(req, res) {
-/*    var db = req.db;
-    var collection = db.get('userlist');
-    collection.find({},{},function(e,docs){
-        res.json(docs);
-    });*/
-
-
-        db(`SELECT  titulo,estadoPublicacion, idUsuario, fechaCreacion, idPublicacion
-        FROM publicaciones`).then((data) => {
-      console.log(data);
-      res.json(data);
-
-    }).catch(err => res.send(err).status(500));
-
-
-});
 
     expressApp.post('/verificarLogsd', (req, res) => {
       var idss = req.body.id;
