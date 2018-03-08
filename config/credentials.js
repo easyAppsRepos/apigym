@@ -1,10 +1,10 @@
 const credentials = () => ({
   database: {
-    hostname: 'gymappdb.c4uf417lot1h.us-east-2.rds.amazonaws.com',
-    name: 'gymAppDB',
+    hostname: 'test',
+    name: 'test',
     port: 3306,
-    username: 'adminGymDB',
-    password: 'adminGymDB',
+    username: 'test',
+    password: 'test',
     pool: {
       max: 5,
       min: 0,
