@@ -19,7 +19,7 @@ const app = () => {
   const expressApp = express();
   expressApp.use(bodyParser.urlencoded({ extended: true }));
   expressApp.use(bodyParser.json());
-expressApp.use(cors({origin: 'http://localhost:3000'}));
+expressApp.use(cors({origin: 'http://localhost:3003'}));
 
 
 
@@ -54,7 +54,7 @@ ${req.body.profile_picture}
         console.log(data);
         res.json(data);
     }).catch(err => res.send(err).status(500));
-  
+
   });
 
 
@@ -861,7 +861,7 @@ var nombreV = 'publicacion'+req.body.idPublicacion;
     res.send('Api is running in port 3000'));*/
 
   return expressApp.listen(
-    3000,
+    3003,
     () => console.log('Connection has been established successfully.')
   );
 };
