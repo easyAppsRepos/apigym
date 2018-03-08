@@ -59,6 +59,27 @@ ${req.body.profile_picture}
 
 
 
+    expressApp.post('/verificarReserva', (req, res) => {
+      console.log(req.body);
+
+   /* db(`?`,[req.body.id]).then((data) => {
+
+
+      console.log(data);
+
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));*/
+
+
+  });
 
 
 
