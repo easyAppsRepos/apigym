@@ -59,10 +59,29 @@ ${req.body.profile_picture}
 
 
 
-    expressApp.post('/verificarReserva', (req, res) => {
-      console.log(req.body);
 
-   /* db(`?`,[req.body.id]).then((data) => {
+    expressApp.post('/completarEjercicio', (req, res) => {
+
+
+    db(`INSERT INTO ejercicioCompletado (idUsuario, idActividad) 
+        VALUES (?,?)`,[req.body.idUsuario,req.body.idActividad]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+    expressApp.post('/verificarReserva', (req, res) => {
+
+
+    db(`INSERT INTO asistenciaClase`,[req.body.id]).then((data) => {
 
 
       console.log(data);
@@ -76,9 +95,7 @@ ${req.body.profile_picture}
         return res.send(err).status(500);
       }
       
-    }).catch(err => res.send(err).status(500));*/
-
-
+    }).catch(err => res.send(err).status(500));
   });
 
 
