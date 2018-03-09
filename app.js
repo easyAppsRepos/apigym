@@ -60,6 +60,30 @@ ${req.body.profile_picture}
 
 
 
+
+
+    expressApp.post('/doLoginApi', (req, res) => {
+
+
+    db(`SELECT idUsuario, nombre, numeroSocio, email, imagenUrl FROM usuarios WHERE numeroSocio = ? AND 
+      codigo = ? AND estado = 1`,[req.body.firstName,req.body.lastName]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
+
     expressApp.post('/completarEjercicio', (req, res) => {
 
 
