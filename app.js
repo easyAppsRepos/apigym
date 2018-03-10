@@ -8,7 +8,7 @@ const multer  =   require('multer');
 const upload = multer();
 const cors = require('cors');
 const Bcrypt = require('bcrypt');
-
+ var _ = require('underscore');
 
 const db = require('./config/db');
 
@@ -58,6 +58,22 @@ ${req.body.profile_picture}
   });
 
 
+  expressApp.get('/getHorarioSemana', function(req, res) {
+
+    db(`SELECT * FROM reservaClase 
+      WHERE fecha > CURRENT_TIMESTAMP AND fecha < (CURDATE() + INTERVAL 7 DAY) ORDER BY fecha ASC`).then((data) => {
+        console.log(data);
+
+        var groups = _.groupBy(data, function (date) {
+          return moment(date).startOf('day').format();
+        });
+
+        console.log(data);
+        console.log(groups);
+        //res.json(data);
+    }).catch(err => res.send(err).status(500));
+
+  });
 
 
 
