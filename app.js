@@ -62,7 +62,7 @@ ${req.body.profile_picture}
 
     db(`SELECT r.*, CAST(DATE(r.fecha) AS char) as soloFecha, TIME(r.fecha) as soloHora, DAYNAME(r.fecha) as diaFecha, c.nombre, c.color, (SELECT tc.nombre FROM tipoClase as tc WHERE tc.idTipoClase = c.idTipoClase ) as categoriaClase, 
 (SELECT p.nombre FROM profesores as p WHERE p.idProfesor = r.idProfesor) as nombreProfesor FROM clase as c, reservaClase as r 
-      WHERE fecha > CURRENT_TIMESTAMP AND fecha < (CURDATE() + INTERVAL 7 DAY) ORDER BY fecha ASC`).then((data) => {
+      WHERE c.idClase = r.idClase AND fecha > CURRENT_TIMESTAMP AND fecha < (CURDATE() + INTERVAL 7 DAY) ORDER BY fecha ASC`).then((data) => {
         //console.log(data);
 
 
