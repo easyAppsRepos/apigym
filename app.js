@@ -75,9 +75,7 @@ ${req.body.profile_picture}
 
         //console.log(data);
 
-
-    var groups = _.indexBy(data, 'soloFecha');
-
+  var groups = _.groupBy(data, 'soloFecha');
 
         console.log(groups);
         //res.json(data);
