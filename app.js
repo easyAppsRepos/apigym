@@ -60,9 +60,8 @@ ${req.body.profile_picture}
 
   expressApp.get('/getHorarioSemana', function(req, res) {
 
-    db(`SELECT r.*, CAST(DATE(r.fecha) AS char) as soloFecha, TIME(r.fecha) as soloHora  FROM reservaClase as r 
-      WHERE fecha > CURRENT_TIMESTAMP AND fecha < (CURDATE() + INTERVAL 7 DAY) ORDER BY fecha ASC
-      `).then((data) => {
+    db(`SELECT r.*,CAST(DATE(r.fecha) AS char) as soloFecha, TIME(r.fecha) as soloHora, DAYNAME(r.fecha) as diaFecha   FROM reservaClase as r 
+      WHERE fecha > CURRENT_TIMESTAMP AND fecha < (CURDATE() + INTERVAL 7 DAY) ORDER BY fecha ASC`).then((data) => {
         //console.log(data);
 
 
