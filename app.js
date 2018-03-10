@@ -65,12 +65,12 @@ ${req.body.profile_picture}
         //console.log(data);
 
         var groups = _.groupBy(data, function (date) {
-          console.log(date);
-          return moment(date).startOf('day').format();
+          //console.log(date);
+          return moment(date).startOf('fecha').format();
         });
 
         //console.log(data);
-       // console.log(groups);
+        console.log(groups);
         //res.json(data);
     }).catch(err => res.send(err).status(500));
 
