@@ -119,9 +119,9 @@ ${req.body.profile_picture}
     ru.idRutina = ra.idRutina AND a.idActividad = ra.idActividad`,[req.body.idUsuario]).then((data) => {
       console.log(data);
       if (data) {
-        return res.send({
-          data: data
-          });
+
+          var groups = _.groupBy(data, 'diaNumero');
+          res.json(groups);
       }
       else{
         return res.send(err).status(500);
