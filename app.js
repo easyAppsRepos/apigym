@@ -66,14 +66,19 @@ ${req.body.profile_picture}
         //console.log(data);
 
 
-        var groups = _.groupBy(data, function (date) {
+     /*   var groups = _.groupBy(data, function (date) {
           //console.log(date);
 
 
           return moment(date).startOf('soloFecha').format();
-        });
+        });*/
 
         //console.log(data);
+
+
+    var groups = _.indexBy(data, 'soloFecha');
+
+
         console.log(groups);
         //res.json(data);
     }).catch(err => res.send(err).status(500));
