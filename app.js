@@ -77,8 +77,8 @@ ${req.body.profile_picture}
 
   var groups = _.groupBy(data, 'soloFecha');
 
-        console.log(groups);
-        //res.json(data);
+        //console.log(groups);
+        res.json(groups);
     }).catch(err => res.send(err).status(500));
 
   });
