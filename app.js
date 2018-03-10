@@ -62,7 +62,7 @@ ${req.body.profile_picture}
 
     db(`SELECT * FROM reservaClase 
       WHERE fecha > CURRENT_TIMESTAMP AND fecha < (CURDATE() + INTERVAL 7 DAY) ORDER BY fecha ASC`).then((data) => {
-        console.log(data);
+        //console.log(data);
 
         var groups = _.groupBy(data, function (date) {
           console.log(date);
@@ -70,7 +70,7 @@ ${req.body.profile_picture}
         });
 
         //console.log(data);
-        console.log(groups);
+       // console.log(groups);
         //res.json(data);
     }).catch(err => res.send(err).status(500));
 
