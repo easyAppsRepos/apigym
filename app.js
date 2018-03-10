@@ -107,6 +107,31 @@ ${req.body.profile_picture}
 
 
 
+    expressApp.post('/getRutinaUsuario', (req, res) => {
+
+
+    db(`SELECT a.nombre, ra.idActividad, ra.diaNumero, 
+    (SELECT ec.idEjercicioCompletado 
+      FROM  ejercicioCompletado as ec WHERE ec.idRutinaActividad = ra.idRutinaActividad AND 
+      ec.numeroSemana = YEARWEEK(CURDATE(), 1) LIMIT 1) as completado 
+    FROM actividad as a, rutinaActividad as ra, rutinaUsuario as ru  
+    WHERE ru.idUsuario = ? AND ru.estado = 1 AND 
+    ru.idRutina = ra.idRutina AND a.idActividad = ra.idActividad`,[req.body.idUsuario]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
 
     expressApp.post('/completarEjercicio', (req, res) => {
 
