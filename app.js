@@ -60,14 +60,17 @@ ${req.body.profile_picture}
 
   expressApp.get('/getHorarioSemana', function(req, res) {
 
-    db(`SELECT * FROM reservaClase 
-      WHERE fecha > CURRENT_TIMESTAMP AND fecha < (CURDATE() + INTERVAL 7 DAY) ORDER BY fecha ASC`).then((data) => {
+    db(`SELECT r.*,DATE(r.fecha) as soloFecha, TIME(r.fecha) as soloHora  FROM reservaClase as r 
+      WHERE fecha > CURRENT_TIMESTAMP AND fecha < (CURDATE() + INTERVAL 7 DAY) ORDER BY fecha ASC
+      `).then((data) => {
         //console.log(data);
 
 
         var groups = _.groupBy(data, function (date) {
           //console.log(date);
-          return moment(date).startOf('fecha').format();
+
+
+          return moment(date).startOf('soloFecha').format();
         });
 
         //console.log(data);
