@@ -212,7 +212,7 @@ ${req.body.profile_picture}
     }).catch(err => res.send(err).status(500));
   });
 
-    expressApp.post('/completarEjercicio2', (req, res) => {
+    expressApp.post('/completarEjercicio3', (req, res) => {
 
 
     db(`INSERT INTO ejercicioCompletado (idUsuario, idActividad, idRutinaActividad, numeroSemana) 
@@ -234,6 +234,29 @@ ${req.body.profile_picture}
       
     }).catch(err => res.send(err).status(500));
   });
+
+
+
+
+    expressApp.post('/completarEjercicio2', (req, res) => {
+
+
+    db(`INSERT INTO ejercicioCompletado (idUsuario, idActividad, idRutinaActividad, numeroSemana) 
+        VALUES (?,?,?,YEARWEEK(CURDATE(), 1))`,[req.body.idUsuario,req.body.idActividad,req.body.idRutina]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
 
     expressApp.post('/verificarReserva', (req, res) => {
 
