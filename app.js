@@ -152,6 +152,23 @@ ${req.body.profile_picture}
 
 
 
+
+    expressApp.post('/getActividadData', (req, res) => {
+    db(`SELECT * FROM actividad WHERE idActividad = ?`,[req.body.idActividad]).then((data) => {
+      console.log(data);
+      if (data) {
+          res.json(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
     expressApp.post('/getRutinaUsuario2', (req, res) => {
 
 
