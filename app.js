@@ -115,10 +115,14 @@ ${req.body.profile_picture}
     FROM actividad as a, rutinaActividad as ra, rutinaUsuario as ru  
     WHERE ru.idUsuario = ? AND ru.estado = 1 AND 
     ru.idRutina = ra.idRutina AND a.idActividad = ra.idActividad`,[req.body.idUsuario]),
-      db(`SELECT * FROM rutinaActividad as ra WHERE ra.idRutinaActividad 
-        NOT IN ( SELECT ec.idRutinaActividad FROM ejercicioCompletado as ec WHERE ec.numeroSemana = YEARWEEK(CURDATE(), 1) 
-        AND ec.idUsuario = ?) AND ra.idRutina = (SELECT ru.idRutina FROM rutinaUsuario as ru 
-        WHERE ru.idUsuario = ? AND ru.estado = 1) ORDER BY ra.diaNumero LIMIT 1`,[req.body.idUsuario,req.body.idUsuario])
+      db(`SELECT ra.*,a.nombre, a.imagenUrl  FROM actividad as a, rutinaActividad as ra 
+        WHERE ra.idRutinaActividad NOT IN 
+        ( SELECT ec.idRutinaActividad 
+        FROM ejercicioCompletado as ec WHERE ec.numeroSemana = YEARWEEK(CURDATE(), 1) 
+        AND ec.idUsuario = ?) AND 
+        ra.idRutina = (SELECT ru.idRutina FROM rutinaUsuario as ru WHERE ru.idUsuario = ? 
+        AND ru.estado = 1) AND a.idActividad = ra.idActividad 
+        ORDER BY ra.diaNumero LIMIT 1`,[req.body.idUsuario,req.body.idUsuario])
     ]).then((data) => {
 
       if (data) {
@@ -126,7 +130,7 @@ ${req.body.profile_picture}
                let aEnviar = [];
 
           var groups = _.groupBy(data[0], 'diaNumero');
-          
+
           aEnviar.push(groups);
           aEnviar.push(data[1]);
 
