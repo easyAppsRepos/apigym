@@ -123,9 +123,15 @@ ${req.body.profile_picture}
 
       if (data) {
 
+               let aEnviar = [];
+
           var groups = _.groupBy(data[0], 'diaNumero');
-          res.json(groups);
-          res.json(data[1]);
+          
+          aEnviar.push(groups);
+          aEnviar.push(data[1]);
+
+          res.json(aEnviar);
+         // res.json();
       }
       else{
         return res.send(err).status(500);
