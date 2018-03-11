@@ -117,12 +117,13 @@ ${req.body.profile_picture}
     ru.idRutina = ra.idRutina AND a.idActividad = ra.idActividad`,[req.body.idUsuario]),
       db(`SELECT ra.*,a.nombre, a.imagenUrl  FROM actividad as a, rutinaActividad as ra 
         WHERE ra.idRutinaActividad NOT IN 
-        ( SELECT ec.idRutinaActividad 
+        (         SELECT ec.idRutinaActividad 
         FROM ejercicioCompletado as ec WHERE ec.numeroSemana = YEARWEEK(CURDATE(), 1) 
-        AND ec.idUsuario = ?) AND 
+        AND ec.idUsuario = ? AND ec.idRutinaActividad IS NOT NULL) AND 
         ra.idRutina = (SELECT ru.idRutina FROM rutinaUsuario as ru WHERE ru.idUsuario = ? 
         AND ru.estado = 1) AND a.idActividad = ra.idActividad 
-        ORDER BY ra.diaNumero LIMIT 1`,[req.body.idUsuario,req.body.idUsuario])
+        ORDER BY ra.diaNumero LIMIT 1
+        `,[req.body.idUsuario,req.body.idUsuario])
     ]).then((data) => {
 
       if (data) {
