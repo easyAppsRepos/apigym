@@ -104,10 +104,45 @@ ${req.body.profile_picture}
     }).catch(err => res.send(err).status(500));
   });
 
-
-
-
     expressApp.post('/getRutinaUsuario', (req, res) => {
+   
+    Promise.all([
+      
+      db(`SELECT a.nombre, ra.idActividad, ra.diaNumero, 
+    (SELECT ec.idEjercicioCompletado 
+      FROM  ejercicioCompletado as ec WHERE ec.idRutinaActividad = ra.idRutinaActividad AND 
+      ec.numeroSemana = YEARWEEK(CURDATE(), 1) LIMIT 1) as completado 
+    FROM actividad as a, rutinaActividad as ra, rutinaUsuario as ru  
+    WHERE ru.idUsuario = ? AND ru.estado = 1 AND 
+    ru.idRutina = ra.idRutina AND a.idActividad = ra.idActividad`,[req.body.idUsuario]),
+      db(`SELECT * FROM rutinaActividad as ra WHERE ra.idRutinaActividad 
+        NOT IN ( SELECT ec.idRutinaActividad FROM ejercicioCompletado as ec WHERE ec.numeroSemana = YEARWEEK(CURDATE(), 1) 
+        AND ec.idUsuario = ?) AND ra.idRutina = (SELECT ru.idRutina FROM rutinaUsuario as ru 
+        WHERE ru.idUsuario = ? AND ru.estado = 1) ORDER BY ra.diaNumero LIMIT 1`,[req.body.idUsuario,req.body.idUsuario])
+    ]).then((data) => {
+
+      if (data) {
+
+          var groups = _.groupBy(data[0], 'diaNumero');
+          res.json(groups);
+          res.json(data[1]);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+
+
+
+
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
+
+
+    expressApp.post('/getRutinaUsuario2', (req, res) => {
 
 
     db(`SELECT a.nombre, ra.idActividad, ra.diaNumero, 
