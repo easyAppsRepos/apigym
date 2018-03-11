@@ -194,12 +194,34 @@ ${req.body.profile_picture}
 
 
 
-
-    expressApp.post('/completarEjercicio', (req, res) => {
+  expressApp.post('/completarEjercicio', (req, res) => {
 
 
     db(`INSERT INTO ejercicioCompletado (idUsuario, idActividad) 
         VALUES (?,?)`,[req.body.idUsuario,req.body.idActividad]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+    expressApp.post('/completarEjercicio2', (req, res) => {
+
+
+    db(`INSERT INTO ejercicioCompletado (idUsuario, idActividad, idRutinaActividad, numeroSemana) 
+        VALUES (?,?,(  SELECT ra.idRutinaActividad FROM 
+                        rutinaActividad as ra WHERE ra.idRutina = 
+                        (SELECT idRutina FROM rutinaUsuario as ru WHERE ru.idUsuario = ? 
+                        AND ru.estado = 1 LIMIT 1) AND 
+                        ra.idActividad = ? 
+                        ORDER BY diaNumero, idRutinaActividad ASC LIMIT 1),YEARWEEK(CURDATE(), 1))`,[req.body.idUsuario,req.body.idActividad,req.body.idUsuario,req.body.idActividad]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
