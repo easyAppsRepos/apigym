@@ -97,7 +97,7 @@ ${req.body.profile_picture}
       AND c.idClase = rc.idClase`).then((data) => {
        
       var groups = _.groupBy(data, 'idClase');
-      
+
 
 
       res.json(groups);
@@ -108,6 +108,24 @@ ${req.body.profile_picture}
 
 
 
+
+  expressApp.post('/agregarReserva', (req, res) => {
+
+
+    db(`INSERT INTO asistenciaClase (idReservaClase, idUsuario) 
+        VALUES (?,?)`,[req.body.idReserva,req.body.idUsuario]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
 
 
     expressApp.post('/doLoginApi', (req, res) => {
