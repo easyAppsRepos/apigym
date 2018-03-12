@@ -95,10 +95,19 @@ ${req.body.profile_picture}
       reservaClase as rc, clase as c 
       WHERE rc.estado = 1 
       AND c.idClase = rc.idClase`).then((data) => {
-       
-      var groups = _.groupBy(data, 'idClase');
+      
+      let env2= [];
+        let dataEn=[];
+        
+      let groups = _.groupBy(data, 'idClase');
+      dataEn.push(groups);
+      groups.forEach(function(element){
+        env2.push(_.groupBy(element, 'soloFecha'));
+      });
+      dataEn.push(env2);
+    
 
-      res.json(groups);
+      res.json(dataEn);
 
     }).catch(err => res.send(err).status(500));
 
