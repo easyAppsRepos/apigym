@@ -97,10 +97,10 @@ ${req.body.profile_picture}
       AND c.idClase = rc.idClase`).then((data) => {
        
       var groups = _.groupBy(data, 'idClase');
-         var groups2 = _.groupBy(data, 'soloFecha');
+      
 
-         var enc = [groups, groups2];
-      res.json(enc);
+
+      res.json(groups);
 
     }).catch(err => res.send(err).status(500));
 
