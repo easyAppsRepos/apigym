@@ -330,17 +330,7 @@ console.log(req.body);
 
 
 
-    expressApp.get('/userlist', function(req, res) {
-    db(`SELECT  *
-            FROM usuarios`).then((data) => {
-          console.log(data);
-          res.json(data);
-    .catch(err => res.send(err).status(500));
-
-
-    });
-    });
-
+ 
 
   expressApp.get('/deletepubli/:idPublicacion', function(req, res) {
      db(`DELETE FROM publicaciones WHERE idPublicacion = ${req.params.idPublicacion}`)
