@@ -91,7 +91,7 @@ ${req.body.profile_picture}
     db(`SELECT * FROM clase`).then((data) => { 
     //  var groups = _.groupBy(data, 'idClase');
       res.json(data);
-      
+
     }).catch(err => res.send(err).status(500));
 
   });
@@ -114,6 +114,35 @@ ${req.body.profile_picture}
       
     }).catch(err => res.send(err).status(500));
   });
+
+
+  expressApp.post('/editarClase', (req, res) => {
+
+    db(`UPDATE clase SET nombre=?,kgF=?,calorias=?,
+      duracionMinutos=?,beneficio=?, 
+      dificultad=?, color=?, estado=? WHERE idClase = ?`,
+      [req.body.nombre,
+      req.body.kgF,req.body.calorias,
+      req.body.duracionMinutos,req.body.beneficio,
+      req.body.dificultad,req.body.color,
+      req.body.estado,req.body.idClase]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+  
+
+
 
     expressApp.post('/doLoginApi', (req, res) => {
 
