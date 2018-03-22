@@ -85,6 +85,18 @@ ${req.body.profile_picture}
 
   });
 
+
+    expressApp.get('/getClases', function(req, res) {
+
+    db(`SELECT * FROM clase`).then((data) => { 
+    //  var groups = _.groupBy(data, 'idClase');
+      res.json(data);
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
+
   expressApp.post('/agregarReserva', (req, res) => {
 
     db(`INSERT INTO asistenciaClase (idReservaClase, idUsuario) 
