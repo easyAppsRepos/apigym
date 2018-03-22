@@ -90,12 +90,8 @@ ${req.body.profile_picture}
 
     db(`SELECT * FROM clase`).then((data) => { 
     //  var groups = _.groupBy(data, 'idClase');
-      //res.json(data);
-      res.send({
-          data: data
-          });
-
-
+      res.json(data);
+      
     }).catch(err => res.send(err).status(500));
 
   });
