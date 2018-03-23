@@ -124,9 +124,7 @@ ${req.body.profile_picture}
       rc.estado FROM reservaClase as rc WHERE rc.idClase = ?`,[req.body.idClase]).then((data) => {
       console.log(data);
       if (data) {
-        return res.send({
-          data: data
-          });
+        return res.send(data);
       }
       else{
         return res.send(err).status(500);
