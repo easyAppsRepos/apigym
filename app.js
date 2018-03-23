@@ -97,6 +97,21 @@ ${req.body.profile_picture}
   });
 
 
+    expressApp.get('/getClasesProfesores', function(req, res) {
+
+    Promise.all([
+    db(`SELECT * FROM clase WHERE estado = 1`),
+    db(`SELECT * FROM profesores WHERE estado = 1`)
+    ]).then((data) => { 
+    //  var groups = _.groupBy(data, 'idClase');
+      res.json(data);
+
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
+
 
   expressApp.post('/agregarReserva', (req, res) => {
 
