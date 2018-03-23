@@ -116,6 +116,31 @@ ${req.body.profile_picture}
   });
 
 
+
+  expressApp.post('/nuevaClase', (req, res) => {
+
+    db(`INSERT INTO clase (nombre, kgF, calorias,duracionMinutos, 
+      beneficio,dificultad,color,estado) 
+        VALUES (?,?,?,?,?,?,?,?)`,
+      [req.body.nombre,
+      req.body.kgF,req.body.calorias,
+      req.body.duracionMinutos,req.body.beneficio,
+      req.body.dificultad,req.body.color,
+      req.body.estado]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
   expressApp.post('/editarClase', (req, res) => {
 
     db(`UPDATE clase SET nombre=?,kgF=?,calorias=?,
