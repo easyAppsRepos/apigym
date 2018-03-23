@@ -137,6 +137,25 @@ ${req.body.profile_picture}
 
 
 
+  expressApp.post('/getUsuariosAnotadosClase', (req, res) => {
+
+    db(`SELECT u.idUsuario, u.numeroSocio, u.nombre, ac.estado, ac.fechaCreacion 
+      FROM usuarios as u, asistenciaClase as ac WHERE u.idUsuario = ac.idUsuario AND
+       ac.idReservaClase = ?`,[req.body.idReserva]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
 
 
   expressApp.post('/nuevaClase', (req, res) => {
