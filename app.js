@@ -117,6 +117,28 @@ ${req.body.profile_picture}
 
 
 
+  expressApp.post('/cargaHorariosClase', (req, res) => {
+
+    db(`SELECT rc.idReservaClase, 
+      CAST(DATE(rc.fecha) AS char) as soloFecha, TIME(rc.fecha) as soloHora,
+      rc.estado FROM reservaClase as rc WHERE rc.idClase = ?`,[req.body.idClase]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
+
   expressApp.post('/nuevaClase', (req, res) => {
 
     db(`INSERT INTO clase (nombre, kgF, calorias,duracionMinutos, 
