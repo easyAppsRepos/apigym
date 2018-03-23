@@ -121,7 +121,9 @@ ${req.body.profile_picture}
 
     db(`SELECT rc.idReservaClase, 
       CAST(DATE(rc.fecha) AS char) as soloFecha, TIME(rc.fecha) as soloHora,
-      rc.estado FROM reservaClase as rc WHERE rc.idClase = ?`,[req.body.idClase]).then((data) => {
+      rc.estado, 
+      (SELECT COUNT(a.idAsistenciaClase) FROM asistenciaClase as a  WHERE rc.idReservaClase = a.idReservaClase) as usuariosAnotados 
+      FROM reservaClase as rc  WHERE rc.idClase = ?`,[req.body.idClase]).then((data) => {
       console.log(data);
       if (data) {
         return res.send(data);
