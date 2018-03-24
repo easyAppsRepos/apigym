@@ -85,6 +85,17 @@ ${req.body.profile_picture}
 
   });
 
+  expressApp.get('/getUsuariosT', function(req, res) {
+
+    db(`SELECT usuarios.*, 
+      CAST(DATE(usuarios.fechaNacimiento) AS char) as soloFecha  FROM usuarios`).then((data) => { 
+
+      res.json(data);
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
 
 
   expressApp.get('/getReservaClase2', function(req, res) {
