@@ -319,7 +319,7 @@ ${req.body.profile_picture}
         VALUES (?,?,?,?,?)`,
       [req.body.nombre,
       req.body.numeroSocio,req.body.codigo,
-      req.body.fechaNacimiento]).then((data) => {
+      req.body.fechaNacimiento,req.body.email]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
