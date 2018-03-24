@@ -202,9 +202,7 @@ ${req.body.profile_picture}
       ra.idActividad = a.idActividad AND ra.idRutina = ?`,[req.body.idRutina]).then((data) => {
       console.log(data);
       if (data) {
-        return res.send({
-           data
-          });
+        return res.send(data);
       }
       else{
         return res.send(err).status(500);
