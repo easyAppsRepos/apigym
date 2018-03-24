@@ -178,6 +178,44 @@ ${req.body.profile_picture}
 
 
 
+  expressApp.post('/agregarReserva', (req, res) => {
+
+    db(`INSERT INTO asistenciaClase (idReservaClase, idUsuario) 
+        VALUES (?,?)`,[req.body.idReserva,req.body.idUsuario]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+  expressApp.post('/getEjerciciosRutina', (req, res) => {
+
+    db(`SELECT ra.*, a.nombre FROM rutinaActividad as ra, actividad as a WHERE
+      ra.idActividad = a.idActividad AND ra.idRutina = ?`,[req.body.idRutina]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+           data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
   expressApp.post('/cambiarEstadoClase', (req, res) => {
 
     db(`UPDATE reservaClase set estado = ? WHERE idReservaClase = ?`,[req.body.estado, req.body.idReserva]).then((data) => {
