@@ -172,7 +172,7 @@ ${req.body.profile_picture}
   expressApp.post('/guardarProgramacion', (req, res) => {
 
     db(`INSERT INTO reservaClase (idClase, idProfesor, fecha, estado) 
-        VALUES (?,?)`,[req.body.idClase, req.body.idProfesor, req.body.fecha,
+        VALUES (?,?,?,?)`,[req.body.idClase, req.body.idProfesor, req.body.fecha,
         1]).then((data) => {
       console.log(data);
       if (data) {
