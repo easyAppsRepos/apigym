@@ -86,6 +86,24 @@ ${req.body.profile_picture}
   });
 
 
+
+  expressApp.get('/getReservaClase2', function(req, res) {
+
+    db(`SELECT c.nombre, rc.idReservaClase, rc.idClase, 
+      CAST(DATE(rc.fecha) AS char) as soloFecha, TIME(rc.fecha) as soloHora, 
+      DAYNAME(rc.fecha) as diaFecha FROM 
+      reservaClase as rc, clase as c 
+      WHERE rc.estado = 1 
+      AND c.idClase = rc.idClase`).then((data) => { 
+
+      res.json(data);
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
+
+
     expressApp.get('/getClases', function(req, res) {
 
     db(`SELECT * FROM clase`).then((data) => { 
