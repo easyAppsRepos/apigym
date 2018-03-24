@@ -289,8 +289,51 @@ ${req.body.profile_picture}
     }).catch(err => res.send(err).status(500));
   });
 
+  expressApp.post('/editarUsuario', (req, res) => {
+
+    db(`UPDATE usuarios SET nombre=?,numeroSocio=?,codigo=?,
+      fechaNacimiento=?,email=? WHERE idUsuario = ?`,
+      [req.body.nombre,
+      req.body.numeroSocio,req.body.codigo,
+      req.body.fechaNacimiento,req.body.email, req.body.idUsuario]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
 
   
+
+
+  expressApp.post('/nuevaClase', (req, res) => {
+
+    db(`INSERT INTO usuarios (nombre, numeroSocio, codigo,fechaNacimiento, 
+      email) 
+        VALUES (?,?,?,?,?)`,
+      [req.body.nombre,
+      req.body.numeroSocio,req.body.codigo,
+      req.body.fechaNacimiento]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
 
 
 
