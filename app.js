@@ -213,6 +213,24 @@ ${req.body.profile_picture}
 
 
 
+  expressApp.post('/getEjerciciosRutina2', (req, res) => {
+
+    db(`SELECT ra.*, a.nombre FROM rutinaActividad as ra, actividad as a WHERE
+      ra.idActividad = a.idActividad AND ra.idRutina = ?`,[req.body.idRutina]).then((data) => {
+      console.log(data);
+      if (data) {
+        var groups = _.groupBy(data, 'diaNumero');
+        return res.send(groups);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
 
   expressApp.post('/cambiarEstadoClase', (req, res) => {
 
