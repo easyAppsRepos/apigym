@@ -312,7 +312,7 @@ ${req.body.profile_picture}
   
 
 
-  expressApp.post('/nuevaClase', (req, res) => {
+  expressApp.post('/nuevoUsuario', (req, res) => {
 
     db(`INSERT INTO usuarios (nombre, numeroSocio, codigo,fechaNacimiento, 
       email) 
