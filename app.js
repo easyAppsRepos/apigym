@@ -124,6 +124,15 @@ ${req.body.profile_picture}
     }).catch(err => res.send(err).status(500));
 
   });
+    expressApp.get('/getEjercicios', function(req, res) {
+
+    db(`SELECT * FROM actividad`).then((data) => { 
+    //  var groups = _.groupBy(data, 'idClase');
+      res.json(data);
+
+    }).catch(err => res.send(err).status(500));
+
+  });
 
 
     expressApp.get('/getClasesProfesores', function(req, res) {
@@ -264,6 +273,48 @@ ${req.body.profile_picture}
       
     }).catch(err => res.send(err).status(500));
   });
+
+
+  expressApp.post('/nuevoEjercicio', (req, res) => {
+
+    db(`INSERT INTO actividad (nombre, cantidadEjercicio, etiquetaEjercicio, kgFuerza, calorias,
+      duracionAproximada, dificultad)  VALUES (?,?,?,?,?,?,?)`,
+      [req.body.nombre,
+      req.body.cantidadEjercicio,req.body.etiquetaEjercicio,
+      req.body.kgFuerza,req.body.calorias,
+      req.body.duracionAproximada,req.body.dificultad]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+  expressApp.post('/editarEjercicio', (req, res) => {
+
+    db(`UPDATE actividad SET nombre=?, cantidadEjercicio=?, etiquetaEjercicio=?,kgFuerza=?,calorias=?,
+      duracionAproximada=?, dificultad = ? WHERE idActividad = ?`,
+      [req.body.nombre,
+      req.body.cantidadEjercicio,req.body.etiquetaEjercicio,
+      req.body.kgFuerza,req.body.calorias,
+      req.body.duracionAproximada,req.body.dificultad,
+      req.body.idActividad]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
 
 
   expressApp.post('/editarClase', (req, res) => {
