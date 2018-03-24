@@ -89,7 +89,7 @@ ${req.body.profile_picture}
 
   expressApp.get('/getReservaClase2', function(req, res) {
 
-    db(`SELECT c.nombre, rc.idReservaClase, rc.idClase, 
+    db(`SELECT c.nombre, c.color, rc.idReservaClase, rc.idClase, 
       CAST(DATE(rc.fecha) AS char) as soloFecha, TIME(rc.fecha) as soloHora, 
       DAYNAME(rc.fecha) as diaFecha FROM 
       reservaClase as rc, clase as c 
