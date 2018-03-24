@@ -95,6 +95,14 @@ ${req.body.profile_picture}
 
   });
 
+  expressApp.get('/getRutinas', function(req, res) {
+
+    db(`SELECT * FROM rutina`).then((data) => { 
+
+      res.json(data);
+    }).catch(err => res.send(err).status(500));
+
+  });
 
 
 
@@ -316,6 +324,21 @@ ${req.body.profile_picture}
   });
 
 
+  expressApp.post('/editarRutina', (req, res) => {
+
+    db(`UPDATE rutina SET nombre=?, diasXSemana=?, dificultad=? WHERE idRutina = ?`,
+      [req.body.nombre,
+      req.body.diasXSemana,req.body.dificultad,req.body.idRutina]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
 
   expressApp.post('/editarClase', (req, res) => {
 
@@ -384,7 +407,24 @@ ${req.body.profile_picture}
     }).catch(err => res.send(err).status(500));
   });
 
+expressApp.post('/nuevaRutina', (req, res) => {
 
+    db(`INSERT INTO rutina (nombre, diasXSemana, dificultad) 
+        VALUES (?,?,?)`,
+      [req.body.nombre,
+      req.body.diasXSemana,req.body.dificultad]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+         data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
 
 
 
