@@ -150,6 +150,26 @@ ${req.body.profile_picture}
 
 
 
+  expressApp.post('/cambiarEstadoClase', (req, res) => {
+
+    db(`UPDATE reservaClase set estado = ? WHERE idReservaClase = ?`,[req.body.estado, req.body.idReserva]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
+
   expressApp.post('/cargaHorariosClase', (req, res) => {
 
     db(`SELECT rc.idReservaClase, 
