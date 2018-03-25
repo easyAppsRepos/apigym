@@ -604,6 +604,58 @@ expressApp.post('/nuevaRutina', (req, res) => {
     }).catch(err => res.send(err).status(500));
   });
 
+
+    expressApp.post('/getRutinaUsuario3', (req, res) => {
+
+
+    db(`SELECT ru.*, f.nombre FROM rutinaUsuario as ru, rutina as f WHERE ru.idRutina = f.idRutina AND ru.idUsuario = ? AND ru.estado = 1 LIMIT 1`,[req.body.idUsuario]).then((data) => {
+      console.log(data);
+      if (data) {
+
+          return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+    expressApp.post('/editarRutinaUsuario', (req, res) => {
+
+
+    db(`UPDATE rutinaUsuario set idRutina = ? WHERE idRutinaEstado = ?`,[req.body.idRutina, req.body.idRutinaEstado]).then((data) => {
+      console.log(data);
+      if (data) {
+
+          return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+    expressApp.post('/asignarRutinaUsuario', (req, res) => {
+
+
+    db(`INSERT INTO rutinaUsuario (idRutina, idUsuario, idProfesor,estado) 
+        VALUES (?,?,1,1)`,[req.body.idRutina, req.body.idUsuario]).then((data) => {
+      console.log(data);
+      if (data) {
+
+          return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
   expressApp.post('/completarEjercicio', (req, res) => {
 
 
