@@ -178,6 +178,22 @@ ${req.body.profile_picture}
 
 
 
+  expressApp.post('/borrarEjercicioRutina', (req, res) => {
+
+    db(`DELETE FROM rutinaActividad WHERE idRutinaActividad = ? `,[req.body.idRutinaActividad]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
   expressApp.post('/agregarReserva', (req, res) => {
 
     db(`INSERT INTO asistenciaClase (idReservaClase, idUsuario) 
@@ -261,6 +277,21 @@ ${req.body.profile_picture}
         return res.send({
           data
           });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+  expressApp.post('/agregarEjercicioRutina', (req, res) => {
+
+    db(`INSERT INTO rutinaActividad (idRutina, idActividad, diaNumero) 
+        VALUES (?,?,?)`,[req.body.idRutina, req.body.idActividad, req.body.diaNumero]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
       }
       else{
         return res.send(err).status(500);
@@ -699,6 +730,11 @@ console.log(req.body);
 
 
  
+
+
+
+
+
 
   expressApp.get('/deletepubli/:idPublicacion', function(req, res) {
      db(`DELETE FROM publicaciones WHERE idPublicacion = ${req.params.idPublicacion}`)
