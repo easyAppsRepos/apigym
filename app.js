@@ -568,7 +568,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
     db(`SELECT codigo FROM usuarios WHERE email = ?`,[req.body.email]).then((data) => {
       console.log(data);
       if (data.length>0) {
-        console.log(data.codigo);
+
 
 /*        var mailOptions = {
           from: "ActionSport<actionSport@app.com>", // sender address
@@ -590,7 +590,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
               from: "ActionSport<actionSport@app.com>", // sender address
               to: req.body.email, // list of receivers
               subject: "Codigo de acceso", // Subject line
-              html: "<b>ActionSport <br> Tu codigo de acceso para el app es: "+data.codigo+"</b>" // html body
+              html: "<b>ActionSport <br> Tu codigo de acceso para el app es: "+data[0].codigo+"</b>" // html body
           });
 
         return res.send({
