@@ -535,8 +535,8 @@ expressApp.post('/nuevaRutina', (req, res) => {
 
     expressApp.post('/registrarUsuario', (req, res) => {
 
-    db(`INSERT INTO usuarios (nombre, dni) 
-        VALUES (?,?)`,[(req.body.firstName+" "+req.body.lastName), req.body.dni]).then((data) => {
+    db(`INSERT INTO usuarios (nombre, dni, numeroSocio) 
+        VALUES (?,?)`,[(req.body.firstName+" "+req.body.lastName), req.body.dni,req.body.dni]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
