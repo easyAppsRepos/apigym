@@ -531,6 +531,26 @@ expressApp.post('/nuevaRutina', (req, res) => {
     }).catch(err => res.send(err).status(500));
   });
 
+
+
+    expressApp.post('/registrarUsuario', (req, res) => {
+
+    db(`INSERT INTO usuarios (nombre, dni) 
+        VALUES (?,?)`,[(req.body.firstName+" "+req.body.lastName), req.body.dni]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send({
+          data: data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
     expressApp.post('/getRutinaUsuario', (req, res) => {
    
     Promise.all([
