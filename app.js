@@ -568,6 +568,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
     db(`SELECT codigo FROM usuarios WHERE email = ?`,[req.body.email]).then((data) => {
       console.log(data);
       if (data.length>0) {
+        console.log(data.codigo);
 
 /*        var mailOptions = {
           from: "ActionSport<actionSport@app.com>", // sender address
