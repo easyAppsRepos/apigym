@@ -551,7 +551,7 @@ expressApp.post('/nuevaRutina', (req, res) => {
   });
 
 
-var smtpTransport = nodemailer.createTransport("SMTP",{
+var smtpTransport = mail.createTransport("SMTP",{
     service: "Gmail",
     auth: {
         user: "gmail.user@gmail.com",
