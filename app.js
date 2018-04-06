@@ -551,6 +551,54 @@ expressApp.post('/nuevaRutina', (req, res) => {
   });
 
 
+var smtpTransport = nodemailer.createTransport("SMTP",{
+    service: "Gmail",
+    auth: {
+        user: "gmail.user@gmail.com",
+        pass: "userpass"
+    }
+});
+
+// setup e-mail data with unicode symbols
+
+
+    expressApp.post('/enviarContra', (req, res) => {
+
+    db(`SELECT codigo FROM usuarios WHERE email = ?`,[req.body.email]).then((data) => {
+      console.log(data);
+      if (data) {
+
+        var mailOptions = {
+          from: "ActionSport<actionSport@app.com>", // sender address
+          to: "jralfarog@gmail.com", // list of receivers
+          subject: "Codigo de acceso", // Subject line
+          text: "Tu codigo de acceso para el app es: 324234.", // plaintext body
+          html: "<b>ActionSport</b>" // html body
+        }
+
+
+        smtpTransport.sendMail(mailOptions, function(error, response){
+          if(error){
+              console.log(error);
+          }else{
+              console.log("Message sent: " + response.message);
+          }
+          });
+
+
+        return res.send({
+          error: false
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
     expressApp.post('/getRutinaUsuario', (req, res) => {
    
     Promise.all([
