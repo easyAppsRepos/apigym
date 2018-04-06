@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const gcm = require('node-gcm');
 
 const mail = require("nodemailer").mail;
+var nodemailer = require("nodemailer");
 const path = require('path');
 const multer  =   require('multer');
 const upload = multer();
@@ -551,7 +552,7 @@ expressApp.post('/nuevaRutina', (req, res) => {
   });
 
 
-var smtpTransport = mail.createTransport("SMTP",{
+var smtpTransport = nodemailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
         user: "gmail.user@gmail.com",
