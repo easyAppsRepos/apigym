@@ -587,10 +587,9 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
           });*/
           mail({
               from: "ActionSport<actionSport@app.com>", // sender address
-              to: "jralfarog@gmail.com", // list of receivers
+              to: req.body.email, // list of receivers
               subject: "Codigo de acceso", // Subject line
-              text: "Tu codigo de acceso para el app es: 324234.", // plaintext body
-              html: "<b>ActionSport</b>" // html body
+              html: "<b>ActionSport <br> Tu codigo de acceso para el app es: "+data.codigo+"</b>" // html body
           });
 
         return res.send({
