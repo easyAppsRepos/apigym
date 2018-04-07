@@ -86,6 +86,17 @@ ${req.body.profile_picture}
   });
 
 
+    expressApp.get('/getEquipamento', function(req, res) {
+
+    db(`SELECT * FROM equipamento WHERE estado = 1`).then((data) => {
+
+        res.send({data:data});
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
+
 
 
   expressApp.get('/getReservaClase', function(req, res) {
