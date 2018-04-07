@@ -73,6 +73,21 @@ ${req.body.profile_picture}
 
   });
 
+
+
+
+  expressApp.get('/getNovedades', function(req, res) {
+
+    db(`SELECT * FROM novedades WHERE estado = 1`).then((data) => {
+
+        res.send({data:data});
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
+
+
   expressApp.get('/getReservaClase', function(req, res) {
 
     db(`SELECT c.nombre, rc.idReservaClase, rc.idClase, 
@@ -89,7 +104,7 @@ ${req.body.profile_picture}
 
 
 
-    expressApp.post('/getEstadistica', (req, res) => {
+    expressApp.post('/getEstadistica', (req, res) => {  
 
 
     db(`SELECT SUM(a.kgFuerza) as fuerza,  SUM(a.calorias) as calorias,
