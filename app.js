@@ -87,6 +87,28 @@ ${req.body.profile_picture}
 
   });
 
+
+
+    expressApp.post('/getEstadistica', (req, res) => {
+
+
+    db(`SELECT SUM(a.kgFuerza) as fuerza,  SUM(a.calorias) as calorias,
+     SUM(a.duracionAproximada) as minutos FROM actividad as a 
+     INNER JOIN ejercicioCompletado  as e ON a.idActividad = e.idActividad WHERE e.idUsuario = ?
+`,[req.body.idUsuario]).then((data) => {
+      console.log(data);
+      if (data) {
+
+          return res.send({data:data});
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
   expressApp.get('/getUsuariosT', function(req, res) {
 
     db(`SELECT usuarios.*, 
