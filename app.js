@@ -565,7 +565,7 @@ expressApp.post('/nuevaRutina', (req, res) => {
 
     expressApp.post('/doLoginApi', (req, res) => {
 
-    db(`SELECT idUsuario, nombre, numeroSocio, email, imagenUrl FROM usuarios WHERE numeroSocio = ? AND 
+    db(`SELECT idUsuario, nombre, numeroSocio, email, fechaNacimiento, imagenUrl FROM usuarios WHERE numeroSocio = ? AND 
       codigo = ? AND estado = 1`,[req.body.firstName,req.body.lastName]).then((data) => {
       console.log(data);
       if (data) {
