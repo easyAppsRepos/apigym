@@ -565,8 +565,11 @@ expressApp.post('/nuevaRutina', (req, res) => {
 
     expressApp.post('/doLoginApi', (req, res) => {
 
-    db(`SELECT idUsuario, nombre, numeroSocio, email, fechaNacimiento, imagenUrl FROM usuarios WHERE numeroSocio = ? AND 
-      codigo = ? AND estado = 1`,[req.body.firstName,req.body.lastName]).then((data) => {
+    db(`SELECT u.idUsuario, u.nombre, u.numeroSocio, u.email, 
+      u.fechaNacimiento, u.imagenUrl, 
+      (SELECT p.nombre FROM profesores as p INNER JOIN rutinaUsuario as ru ON p.idProfesor = ru.idProfesor WHERE  ru.idUsuario= u.idUsuario AND ru.estado = 1) as profesor FROM usuarios as u  WHERE u.numeroSocio = ? AND 
+      u.codigo = 
+      ? AND u.estado = 1`,[req.body.firstName,req.body.lastName]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
