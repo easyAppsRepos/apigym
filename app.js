@@ -60,6 +60,24 @@ ${req.body.profile_picture}
   });
 
 
+  expressApp.get('/getHorarioAtencion', function(req, res) {
+    Promise.all([
+    db(`SELECT * FROM horario WHERE tipo = 1 ORDER BY diaNum ASC`),
+    db(`SELECT * FROM horario WHERE tipo = 2 ORDER BY diaNum ASC`)
+    ]).then((data) => {
+        console.log(data);
+      
+        res.send({data:data});
+
+
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
+getHorarioAtencion
+
+
   expressApp.get('/getHorarioSemana', function(req, res) {
 
     db(`SELECT r.*, CAST(DATE(r.fecha) AS char) as soloFecha, TIME(r.fecha) as soloHora, DAYNAME(r.fecha) as diaFecha, c.nombre, c.color, c.duracionMinutos, (SELECT tc.nombre FROM tipoClase as tc WHERE tc.idTipoClase = c.idTipoClase ) as categoriaClase, 
