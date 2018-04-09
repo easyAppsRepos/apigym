@@ -75,7 +75,7 @@ ${req.body.profile_picture}
   });
 
 
-getHorarioAtencion
+
 
 
   expressApp.get('/getHorarioSemana', function(req, res) {
