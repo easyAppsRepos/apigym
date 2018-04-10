@@ -749,7 +749,21 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
     }).catch(err => res.send(err).status(500));
   });
 
+    expressApp.post('/solicitarRR', (req, res) => {
 
+
+    db(`UPDATE usuarios SET estadoRutina=? WHERE idUsuario=?`,[req.body.estado,req.body.idUsuario]).then((data) => {
+      console.log(data);
+      if (data) {
+          res.send({data:data});
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+    
     expressApp.post('/getRutinaUsuario3', (req, res) => {
 
 
