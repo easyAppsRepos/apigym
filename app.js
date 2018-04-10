@@ -124,7 +124,7 @@ ${req.body.profile_picture}
       DAYNAME(rc.fecha) as diaFecha FROM 
       reservaClase as rc, clase as c 
       WHERE rc.estado = 1 
-      AND c.idClase = rc.idClase`).then((data) => { 
+      AND c.idClase = rc.idClase AND c.reserva = 1 AND rc.fecha > CURRENT_TIMESTAMP`).then((data) => { 
       var groups = _.groupBy(data, 'idClase');
       res.json(groups);
     }).catch(err => res.send(err).status(500));
