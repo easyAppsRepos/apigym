@@ -183,7 +183,7 @@ ${req.body.profile_picture}
   expressApp.get('/getUsuariosT', function(req, res) {
 
     db(`SELECT usuarios.*, 
-      CAST(DATE(usuarios.fechaNacimiento) AS char) as soloFecha  FROM usuarios ORDER BY estadoRutina ASC`).then((data) => { 
+      CAST(DATE(usuarios.fechaNacimiento) AS char) as soloFecha  FROM usuarios ORDER BY FIELD(estadoRutina, 1, 0, 2)`).then((data) => { 
 
       res.json(data);
     }).catch(err => res.send(err).status(500));
