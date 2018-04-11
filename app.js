@@ -827,8 +827,10 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
     expressApp.post('/asignarRutinaUsuario', (req, res) => {
 
 
-    db(`INSERT INTO rutinaUsuario (idRutina, idUsuario, idProfesor,estado) 
-        VALUES (?,?,1,1)`,[req.body.idRutina, req.body.idUsuario]).then((data) => {
+    Promise.all([db(`INSERT INTO rutinaUsuario (idRutina, idUsuario, idProfesor,estado) 
+        VALUES (?,?,1,1)`,[req.body.idRutina, req.body.idUsuario]),db(`UPDATE usuarios 
+        SET estadoRutina = 2 WHERE idUsuario = ?`,[req.body.idUsuario])]).then((data) => {
+
       console.log(data);
       if (data) {
 
@@ -840,6 +842,10 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
       
     }).catch(err => res.send(err).status(500));
   });
+
+
+
+
 
 
   expressApp.post('/completarEjercicio', (req, res) => {
