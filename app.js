@@ -119,6 +119,38 @@ ${req.body.profile_picture}
   });
 
 
+  expressApp.get('/getSolicitudesEspera', function(req, res) {
+    Promise.all([
+    db(`SELECT count(idUsuario) FROM usuarios WHERE estadoRutina = 1`),
+    db(`SELECT count(idUsuario) FROM usuarios WHERE estado = 0`)
+    ]).then((data) => {
+        console.log(data);
+
+        res.send(data);
+
+
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
+
+
+  expressApp.get('/getSolicitudesEspera', function(req, res) {
+
+    db(`SELECT count(idUsuario) FROM usuarios WHERE estadoRutina = 1`).then((data) => {
+
+
+  var groups = _.groupBy(data, 'soloFecha');
+        res.json(groups);
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
+
+
+
 
 
   expressApp.get('/getNovedades', function(req, res) {
