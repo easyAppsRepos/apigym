@@ -222,6 +222,17 @@ ${req.body.profile_picture}
 
   });
 
+    expressApp.get('/getUsuariosEstadoOrder', function(req, res) {
+
+    db(`SELECT usuarios.*, 
+      CAST(DATE(usuarios.fechaNacimiento) AS char) as soloFecha  FROM usuarios ORDER BY FIELD(estado, 0, 1, 2)`).then((data) => { 
+
+      res.json(data);
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
   expressApp.get('/getRutinas', function(req, res) {
 
     db(`SELECT * FROM rutina`).then((data) => { 
