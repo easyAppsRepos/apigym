@@ -539,6 +539,21 @@ ${req.body.profile_picture}
       
     }).catch(err => res.send(err).status(500));
   });
+  expressApp.post('/nuevoProfesor', (req, res) => {
+
+    db(`INSERT INTO profesores (nombre, estado)  VALUES (?,?)`,
+      [req.body.nombre,
+      req.body.estado]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
 
 
   expressApp.post('/editarEjercicio', (req, res) => {
@@ -560,6 +575,23 @@ ${req.body.profile_picture}
       
     }).catch(err => res.send(err).status(500));
   });
+
+
+  expressApp.post('/editarProfesor', (req, res) => {
+
+    db(`UPDATE profesores SET nombre=?, estado=? WHERE idProfesor = ?`,
+      [req.body.nombre,req.body.estado,
+      req.body.idProfesor]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  })
 
 
   expressApp.post('/editarRutina', (req, res) => {
