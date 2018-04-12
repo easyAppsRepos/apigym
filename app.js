@@ -578,10 +578,10 @@ ${req.body.profile_picture}
   expressApp.post('/editarUsuario', (req, res) => {
 
     db(`UPDATE usuarios SET nombre=?,numeroSocio=?,codigo=?,
-      fechaNacimiento=?,email=? WHERE idUsuario = ?`,
+      fechaNacimiento=?,email=?, estado=? WHERE idUsuario = ?`,
       [req.body.nombre,
       req.body.numeroSocio,req.body.codigo,
-      req.body.fechaNacimiento,req.body.email, req.body.idUsuario]).then((data) => {
+      req.body.fechaNacimiento,req.body.email, req.body.estado,req.body.idUsuario]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
