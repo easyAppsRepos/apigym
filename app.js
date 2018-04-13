@@ -428,8 +428,8 @@ ${req.body.profile_picture}
   expressApp.post('/guardarProgramacionR', (req, res) => {
 
 var stringValues='';
-
-for(var i=0; i<4; i++){
+var repeticiones = req.body.repetir || 0;
+for(var i=0; i<repeticiones; i++){
 var datePartido = req.body.fechaCompleta.split(' ');
 //console.log(datePartido[0]);
 var new_date = moment(datePartido[0]).add((7*(i)), 'days').format("YYYY-MM-DD");
