@@ -432,7 +432,7 @@ var stringValues='';
 for(var i=0; i<4; i++){
 var datePartido = req.body.fechaCompleta.split(' ');
 //console.log(datePartido[0]);
-var new_date = moment(datePartido[0]).add((7*(i+1)), 'days').toDate();
+var new_date = moment(datePartido[0]).add((7*(i+1)), 'days').format("YYYY-MM-DD");
 
 
 
