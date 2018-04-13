@@ -452,7 +452,7 @@ else{
 }
 
 }
-
+console.log(stringValues);
 
     db(`INSERT INTO reservaClase (idClase, idProfesor, fecha, estado) 
         VALUES `+stringValues).then((data) => {
