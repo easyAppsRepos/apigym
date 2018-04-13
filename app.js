@@ -552,13 +552,13 @@ console.log(stringValues);
   expressApp.post('/nuevaClase', (req, res) => {
 
     db(`INSERT INTO clase (nombre, kgF, calorias,duracionMinutos, 
-      beneficio,dificultad,color,estado) 
-        VALUES (?,?,?,?,?,?,?,?)`,
+      beneficio,dificultad,color,estado,imagenUrl) 
+        VALUES (?,?,?,?,?,?,?,?,?)`,
       [req.body.nombre,
       req.body.kgF,req.body.calorias,
       req.body.duracionMinutos,req.body.beneficio,
       req.body.dificultad,req.body.color,
-      req.body.estado]).then((data) => {
+      req.body.estado,req.body.imagenUrl]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
@@ -576,11 +576,11 @@ console.log(stringValues);
   expressApp.post('/nuevoEjercicio', (req, res) => {
 
     db(`INSERT INTO actividad (nombre, cantidadEjercicio, etiquetaEjercicio, kgFuerza, calorias,
-      duracionAproximada, dificultad)  VALUES (?,?,?,?,?,?,?)`,
+      duracionAproximada, dificultad,imagenUrl)  VALUES (?,?,?,?,?,?,?,?)`,
       [req.body.nombre,
       req.body.cantidadEjercicio,req.body.etiquetaEjercicio,
       req.body.kgFuerza,req.body.calorias,
-      req.body.duracionAproximada,req.body.dificultad]).then((data) => {
+      req.body.duracionAproximada,req.body.dificultad,req.body.imagenUrl]).then((data) => {
       console.log(data);
       if (data) {
         return res.send(data);
@@ -610,13 +610,13 @@ console.log(stringValues);
 
     expressApp.post('/nuevaMaquina', (req, res) => {
 
-    db(`INSERT INTO equipamento (nombre, descripcion, item1, item2, item3, estado)  VALUES (?,?,?,?,?,?)`,
+    db(`INSERT INTO equipamento (nombre, descripcion, item1, item2, item3, estado, imagenLink)  VALUES (?,?,?,?,?,?,?)`,
       [req.body.nombre,
       req.body.descripcion,
       req.body.item1,
       req.body.item2,
       req.body.item3,
-      req.body.estado]).then((data) => {
+      req.body.estado,req.body.imagenLink]).then((data) => {
       console.log(data);
       if (data) {
         return res.send(data);
@@ -630,14 +630,51 @@ console.log(stringValues);
 
 
 
+    expressApp.post('/nuevaNovedad', (req, res) => {
+
+    db(`INSERT INTO novedades (titulo, descripcion, imagenUrl, estado)  VALUES (?,?,?,?)`,
+      [req.body.titulo,
+      req.body.descripcion,
+      req.body.imagenUrl, req.body.estado]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
+  expressApp.post('/editarNovedad', (req, res) => {
+
+    db(`UPDATE novedades SET titulo=?, descripcion=?, estado=?, imagenUrl=? WHERE idNovedad = ?`,
+      [req.body.titulo,
+      req.body.descripcion,req.body.estado,
+      req.body.imagenUrl,  req.body.idNovedad]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
   expressApp.post('/editarEjercicio', (req, res) => {
 
     db(`UPDATE actividad SET nombre=?, cantidadEjercicio=?, etiquetaEjercicio=?,kgFuerza=?,calorias=?,
-      duracionAproximada=?, dificultad = ? WHERE idActividad = ?`,
+      duracionAproximada=?, dificultad = ?, imagenUrl=? WHERE idActividad = ?`,
       [req.body.nombre,
       req.body.cantidadEjercicio,req.body.etiquetaEjercicio,
       req.body.kgFuerza,req.body.calorias,
-      req.body.duracionAproximada,req.body.dificultad,
+      req.body.duracionAproximada,req.body.dificultad, req.body.imagenUrl,
       req.body.idActividad]).then((data) => {
       console.log(data);
       if (data) {
@@ -653,11 +690,11 @@ console.log(stringValues);
   expressApp.post('/editarMaquina', (req, res) => {
 
     db(`UPDATE equipamento SET nombre=?, descripcion=?, item1=?,item2=?,item3=?,
-      estado=? WHERE id = ?`,
+      estado=?, imagenLink=? WHERE id = ?`,
       [req.body.nombre,
       req.body.descripcion,req.body.item1,
       req.body.item2,req.body.item3,
-      req.body.estado,req.body.id]).then((data) => {
+      req.body.estado,req.body.imagenLink,req.body.id]).then((data) => {
       console.log(data);
       if (data) {
         return res.send(data);
@@ -705,12 +742,12 @@ console.log(stringValues);
 
     db(`UPDATE clase SET nombre=?,kgF=?,calorias=?,
       duracionMinutos=?,beneficio=?, 
-      dificultad=?, color=?, estado=? WHERE idClase = ?`,
+      dificultad=?, color=?, estado=?, imagenUrl=? WHERE idClase = ?`,
       [req.body.nombre,
       req.body.kgF,req.body.calorias,
       req.body.duracionMinutos,req.body.beneficio,
       req.body.dificultad,req.body.color,
-      req.body.estado,req.body.idClase]).then((data) => {
+      req.body.estado,req.body.imagenUrl,req.body.idClase]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
