@@ -565,7 +565,7 @@ ${req.body.profile_picture}
 
     expressApp.post('/nuevaMaquina', (req, res) => {
 
-    db(`INSERT INTO profesores (nombre, descripcion, item1, item2, item3, estado)  VALUES (?,?,?,?,?,?)`,
+    db(`INSERT INTO equipamento (nombre, descripcion, item1, item2, item3, estado)  VALUES (?,?,?,?,?,?)`,
       [req.body.nombre,
       req.body.descripcion,
       req.body.item1,
