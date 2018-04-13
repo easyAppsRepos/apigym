@@ -163,6 +163,18 @@ ${req.body.profile_picture}
   });
 
 
+    expressApp.get('/getNovedadesA', function(req, res) {
+
+    db(`SELECT * FROM novedades`).then((data) => {
+
+        res.send({data:data});
+    }).catch(err => res.send(err).status(500));
+
+  });
+
+
+
+
     expressApp.get('/getEquipamento', function(req, res) {
 
     db(`SELECT * FROM equipamento WHERE estado = 1`).then((data) => {
