@@ -425,7 +425,41 @@ ${req.body.profile_picture}
   });
 
 
+  expressApp.post('/guardarProgramacionR', (req, res) => {
 
+var stringValues='';
+
+for(var i=0; i<4; i++){
+var datePartido = req.body.fechaCompleta.split(' ');
+var new_date = moment(datePartido[0]).add((7*(i+1)), 'days');
+var new_date2 =new_date+' '+datePartido[1];
+if(i == 0){
+  stringValues+= ' ('+req.body.idClase+','+req.body.idProfesor+',"'+req.body.fechaCompleta+'",1) ';
+}
+else{
+  stringValues+= ' ,('+req.body.idClase+','+req.body.idProfesor+',"'+req.body.fechaCompleta+'",1) ';
+}
+
+}
+
+
+    db(`INSERT INTO reservaClase (idClase, idProfesor, fecha, estado) 
+        VALUES `+stringValues).then((data) => {
+      console.log(data);
+
+
+
+      if (data) {
+        return res.send({
+          data
+          });
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
 
   expressApp.post('/guardarProgramacion', (req, res) => {
 
