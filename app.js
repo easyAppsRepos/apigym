@@ -173,7 +173,14 @@ ${req.body.profile_picture}
   });
 
 
+    expressApp.get('/getEquipamentoAll', function(req, res) {
 
+    db(`SELECT * FROM equipamento `).then((data) => {
+
+        res.send({data:data});
+    }).catch(err => res.send(err).status(500));
+
+  });
 
 
   expressApp.get('/getReservaClase', function(req, res) {
@@ -556,6 +563,28 @@ ${req.body.profile_picture}
   });
 
 
+    expressApp.post('/nuevaMaquina', (req, res) => {
+
+    db(`INSERT INTO profesores (nombre, descripcion, item1, item2, item3, estado)  VALUES (?,?,?,?,?,?)`,
+      [req.body.nombre,
+      req.body.descripcion,
+      req.body.item1,
+      req.body.item2,
+      req.body.item3,
+      req.body.estado]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
   expressApp.post('/editarEjercicio', (req, res) => {
 
     db(`UPDATE actividad SET nombre=?, cantidadEjercicio=?, etiquetaEjercicio=?,kgFuerza=?,calorias=?,
@@ -576,7 +605,24 @@ ${req.body.profile_picture}
     }).catch(err => res.send(err).status(500));
   });
 
+  expressApp.post('/editarMaquina', (req, res) => {
 
+    db(`UPDATE equipamento SET nombre=?, descripcion=?, item1=?,item2=?,item3=?,
+      estado=? WHERE id = ?`,
+      [req.body.nombre,
+      req.body.descripcion,req.body.item1,
+      req.body.item2,req.body.item3,
+      req.body.estado,req.body.id]).then((data) => {
+      console.log(data);
+      if (data) {
+        return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
   expressApp.post('/editarProfesor', (req, res) => {
 
     db(`UPDATE profesores SET nombre=?, estado=? WHERE idProfesor = ?`,
