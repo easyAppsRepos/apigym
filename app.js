@@ -440,7 +440,7 @@ var new_date = moment(datePartido[0]).add((7*(i+1)), 'days').toDate();
 console.log(new_date);
 
 
-var new_date2 =(new_date.split('T')[0]) +' '+datePartido[1];
+var new_date2 =(new_date.toString().split('T')[0]) +' '+datePartido[1];
 
 
 
