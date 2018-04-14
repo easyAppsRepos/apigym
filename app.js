@@ -438,6 +438,7 @@ ${req.body.profile_picture}
 
 
   expressApp.post('/guardarProgramacionR', (req, res) => {
+var cupus = req.body.cupoMax || 10;
 
 var stringValues='';
 var repeticiones = req.body.repetir || 0;
@@ -445,7 +446,6 @@ for(var i=0; i<repeticiones; i++){
 var datePartido = req.body.fechaCompleta.split(' ');
 //console.log(datePartido[0]);
 var new_date = moment(datePartido[0]).add((7*(i)), 'days').format("YYYY-MM-DD");
-
 
 
 
@@ -457,16 +457,16 @@ var new_date2 =new_date +' '+datePartido[1];
 
 
 if(i == 0){
-  stringValues+= ' ('+req.body.idClase+','+req.body.idProfesor+',"'+new_date2+'",1) ';
+  stringValues+= ' ('+req.body.idClase+','+req.body.idProfesor+',"'+new_date2+'",1,'+cupus+') ';
 }
 else{
-  stringValues+= ' ,('+req.body.idClase+','+req.body.idProfesor+',"'+new_date2+'",1) ';
+  stringValues+= ' ,('+req.body.idClase+','+req.body.idProfesor+',"'+new_date2+'",1,'+cupus+') ';
 }
 
 }
 console.log(stringValues);
 
-    db(`INSERT INTO reservaClase (idClase, idProfesor, fecha, estado) 
+    db(`INSERT INTO reservaClase (idClase, idProfesor, fecha, estado, cupoMax) 
         VALUES `+stringValues).then((data) => {
       console.log(data);
 
