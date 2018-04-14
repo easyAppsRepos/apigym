@@ -776,10 +776,10 @@ console.log(stringValues);
   expressApp.post('/editarUsuario', (req, res) => {
 
     db(`UPDATE usuarios SET nombre=?,numeroSocio=?,codigo=?,
-      fechaNacimiento=?,email=?, estado=? WHERE idUsuario = ?`,
+      fechaNacimiento=?,email=?, estado=?, imagenUrl=? WHERE idUsuario = ?`,
       [req.body.nombre,
       req.body.numeroSocio,req.body.codigo,
-      req.body.fechaNacimiento,req.body.email, req.body.estado,req.body.idUsuario]).then((data) => {
+      req.body.fechaNacimiento,req.body.email, req.body.estado,req.body.imagenUrl,req.body.idUsuario]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
@@ -799,11 +799,11 @@ console.log(stringValues);
   expressApp.post('/nuevoUsuario', (req, res) => {
 
     db(`INSERT INTO usuarios (nombre, numeroSocio, codigo,fechaNacimiento, 
-      email) 
-        VALUES (?,?,?,?,?)`,
+      email, imagenUrl) 
+        VALUES (?,?,?,?,?,?)`,
       [req.body.nombre,
       req.body.numeroSocio,req.body.codigo,
-      req.body.fechaNacimiento,req.body.email]).then((data) => {
+      req.body.fechaNacimiento,req.body.email,req.body.imagenUrl]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
