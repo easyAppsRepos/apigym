@@ -564,13 +564,13 @@ console.log(stringValues);
   expressApp.post('/nuevaClase', (req, res) => {
 
     db(`INSERT INTO clase (nombre, kgF, calorias,duracionMinutos, 
-      beneficio,dificultad,color,estado,imagenUrl) 
-        VALUES (?,?,?,?,?,?,?,?,?)`,
+      beneficio,dificultad,color,estado,imagenUrl,reserva) 
+        VALUES (?,?,?,?,?,?,?,?,?,?)`,
       [req.body.nombre,
       req.body.kgF,req.body.calorias,
       req.body.duracionMinutos,req.body.beneficio,
       req.body.dificultad,req.body.color,
-      req.body.estado,req.body.imagenUrl]).then((data) => {
+      req.body.estado,req.body.imagenUrl, req.body.reserva]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
@@ -754,12 +754,12 @@ console.log(stringValues);
 
     db(`UPDATE clase SET nombre=?,kgF=?,calorias=?,
       duracionMinutos=?,beneficio=?, 
-      dificultad=?, color=?, estado=?, imagenUrl=? WHERE idClase = ?`,
+      dificultad=?, color=?, estado=?, imagenUrl=?, reserva = ? WHERE idClase = ?`,
       [req.body.nombre,
       req.body.kgF,req.body.calorias,
       req.body.duracionMinutos,req.body.beneficio,
       req.body.dificultad,req.body.color,
-      req.body.estado,req.body.imagenUrl,req.body.idClase]).then((data) => {
+      req.body.estado,req.body.imagenUrl,req.body.reserva,req.body.idClase]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
