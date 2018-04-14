@@ -197,12 +197,13 @@ ${req.body.profile_picture}
 
   expressApp.get('/getReservaClase', function(req, res) {
 
-    db(`SELECT c.nombre, rc.idReservaClase, rc.idClase, 
+    db(`      SELECT c.nombre, rc.idReservaClase, rc.idClase, 
       CAST(DATE(rc.fecha) AS char) as soloFecha, TIME(rc.fecha) as soloHora, 
       DAYNAME(rc.fecha) as diaFecha FROM 
       reservaClase as rc, clase as c 
       WHERE rc.estado = 1 
-      AND c.idClase = rc.idClase AND c.reserva = 1 AND rc.fecha > CURRENT_TIMESTAMP`).then((data) => { 
+      AND c.idClase = rc.idClase AND c.reserva = 1 AND rc.fecha > CURRENT_TIMESTAMP AND rc.cupoMax > (SELECT count(gg.idAsistenciaClase) FROM asistenciaClase as gg WHERE gg.idReservaClase = rc.idReservaClase) 
+      `).then((data) => { 
       var groups = _.groupBy(data, 'idClase');
       res.json(groups);
     }).catch(err => res.send(err).status(500));
