@@ -267,7 +267,7 @@ ${req.body.profile_picture}
 
     db(`SELECT c.nombre, c.color, rc.idReservaClase, rc.idClase, 
       CAST(DATE(rc.fecha) AS char) as soloFecha, TIME(rc.fecha) as soloHora, 
-      DAYNAME(rc.fecha) as diaFecha FROM 
+      DAYNAME(rc.fecha) as diaFecha, (SELECT count(gg.idAsistenciaClase) FROM asistenciaClase as gg WHERE gg.idReservaClase = rc.idReservaClase) as reservados FROM 
       reservaClase as rc, clase as c 
       WHERE rc.estado = 1 
       AND c.idClase = rc.idClase`).then((data) => { 
