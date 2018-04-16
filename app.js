@@ -842,7 +842,7 @@ expressApp.post('/nuevaRutina', (req, res) => {
     expressApp.post('/doLoginApi', (req, res) => {
 
     db(`SELECT u.idUsuario, u.nombre, u.numeroSocio, u.email, 
-      u.fechaNacimiento, u.imagenUrl, 
+      u.fechaNacimiento, u.imagenUrl, u.estado,  
       (SELECT p.nombre FROM profesores as p INNER JOIN rutinaUsuario as ru ON p.idProfesor = ru.idProfesor WHERE  ru.idUsuario= u.idUsuario AND ru.estado = 1) as profesor FROM usuarios as u  WHERE u.numeroSocio = ? AND 
       u.codigo = 
       ? AND (u.estado = 1 OR u.estado = 0)`,[req.body.firstName,req.body.lastName]).then((data) => {
