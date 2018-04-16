@@ -1055,7 +1055,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
   });
 
 
-    expressApp.post('/asignarRutinaUsuario', (req, res) => {
+    expressApp.post('/asignarRutinaUsuarioOld', (req, res) => {
 
 
     Promise.all([db(`INSERT INTO rutinaUsuario (idRutina, idUsuario, idProfesor,estado) 
@@ -1284,13 +1284,13 @@ console.log(req.body);
   });
 
 
-    expressApp.post('/asignarRutinaUsuario2', (req, res) => {
+    expressApp.post('/asignarRutinaUsuario', (req, res) => {
 
 
     Promise.all([db(`INSERT INTO rutinaUsuario (idRutina, idUsuario, idProfesor,estado) 
         VALUES (?,?,1,1)`,[req.body.idRutina, req.body.idUsuario]),db(`UPDATE usuarios 
-        SET estadoRutina = 2 WHERE idUsuario = ?`,[req.body.idUsuario]),db(`SELECT pushKey
-        FROM pushHandler WHERE  idUsuario = ?`,[req.body.idUsuario])]).then((data) => {
+        SET estadoRutina = 2 WHERE idUsuario = ?`,[req.body.idUsuario]),db(`SELECT pushKey FROM pushHandler
+         WHERE  idUsuario = ? AND logOut IS NULL GROUP BY pushKey`,[req.body.idUsuario])]).then((data) => {
 
       console.log(data);
       var registrationTokens = [];
