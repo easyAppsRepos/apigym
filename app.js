@@ -1352,8 +1352,8 @@ apnProvider.send(note, deviceToken).then( (result) => {
               var note = new apn.Notification();
 
               note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-              note.badge = 1;
-              note.sound = "ping.aiff";
+             // note.badge = 1;
+              note.sound = "default";
               note.alert = "Tu rutina ha sido modificada, ingresa al app y mira los nuevos ejercicios";
               note.payload = {'messageFrom': 'test1'};
               note.topic = "com.ionicframework.actionsport";
@@ -1432,8 +1432,8 @@ apnProvider.send(note, deviceToken).then( (result) => {
               var note = new apn.Notification();
 
               note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-              note.badge = 1;
-              note.sound = "ping.aiff";
+     
+              note.sound = "default";
               note.alert = "Rutina Asignada, ingresa al app y mira los ejercicios";
               note.payload = {'messageFrom': 'test1'};
               note.topic = "com.ionicframework.actionsport";
