@@ -1345,7 +1345,7 @@ apnProvider.send(note, deviceToken).then( (result) => {
           console.log(element.pushKey);
 
           element.so == 'Android' ? registrationTokens.push(element.pushKey) : 
-          element.so == 'iOS' : registrationTokensiOs.push(element.pushKey) : console.log('invalidSO');
+          element.so == 'iOS' ? registrationTokensiOs.push(element.pushKey) : console.log('invalidSO');
           //registrationTokens.push(element.pushKey);
           //registrationTokensiOs.push(element.pushKey);
           });
