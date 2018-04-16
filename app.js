@@ -13,7 +13,7 @@ const Bcrypt = require('bcrypt');
 var moment = require('moment');
 const db = require('./config/db');
 
-//var sender = new gcm.Sender('AIzaSyB9NRBjhypcU9QZursZiiJuGJMulaCjEmA');
+var sender = new gcm.Sender('AIzaSyCLkorkKI0_1l_fyLWe9BXWYNfMnivcNg0');
 
 
 const app = () => {
