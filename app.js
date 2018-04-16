@@ -1285,10 +1285,11 @@ note.topic = "<your-app-bundle-id>";
 
 apnProvider.send(note, deviceToken).then( (result) => {
   // see documentation for an explanation of result
+  console.log(result);
 });
 
 
-          return res.send(data);
+          return res.send('ok');
   });
 
 
