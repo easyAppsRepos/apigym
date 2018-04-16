@@ -12,8 +12,22 @@ const Bcrypt = require('bcrypt');
  var _ = require('underscore');
 var moment = require('moment');
 const db = require('./config/db');
+var apn = require('apn');
 
 var sender = new gcm.Sender('AIzaSyCLkorkKI0_1l_fyLWe9BXWYNfMnivcNg0');
+
+
+
+var options = {
+  token: {
+    key: "AuthKey_77AUDHJ66U.p8",
+    keyId: "77AUDHJ66U",
+    teamId: "8S2C3972LS"
+  },
+  production: false
+};
+
+var apnProvider = new apn.Provider(options);
 
 
 const app = () => {
@@ -1255,7 +1269,7 @@ console.log(req.body);
 
   expressApp.post('/testPushesC', (req, res) => {
        var registrationTokens = [];
-          var data = [{pushKey:'eJd1KpsWqH4:APA91bG8syD7JX4g5-TKfptB30BdGwqh9fqmQpa-D4SnMazVAZIv0Kh2bp72E3bee2aLrtNbUR1zabcqdSsols9nyehogCB0JUZxLtLd1YkHXQQHpA-6o0Kxx56JOxTxyOWsbrsRUn6d'}];
+          var data = [{pushKey:'7639559c0bea57133cb5ec0f7e45a20d0d5f2b0e97e4d321256b8881c78b2f77'}];
           data.forEach(function(element) {
           console.log(element.pushKey);
           registrationTokens.push(element.pushKey);
