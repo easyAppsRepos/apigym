@@ -1252,6 +1252,86 @@ console.log(req.body);
       }).catch(err => res.send(err).status(500));
   });
 
+
+  expressApp.post('/testPushesC', (req, res) => {
+          var data = [{pushKey:'dFathybQaU0:APA91bEEzj7L2F0dlCznEWfnbQDjD8KDt9eIDP…_o6DkLQNfUdYybdmeJElNoyW2obF0SV1S8Jd0TApoNNhl9zoW'}];
+          data.forEach(function(element) {
+          console.log(element.pushKey);
+          registrationTokens.push(element.pushKey);
+          });
+
+          if(registrationTokens.length > 0){
+          console.log('d');
+          var message = new gcm.Message({
+              data: {
+              key1: 'test'
+              },
+              notification: {
+                  title: "Rutina Asignada",
+                  icon: "ic_launcher",
+                  body: "Ingresa y mira los ejercicios asignados!"
+              }
+          });
+
+          sender.sendNoRetry(message, { registrationTokens: registrationTokens }, function(err, response) {
+                  if(err) console.error(err);
+                  else    console.log(response);
+                });
+
+        }
+          return res.send(data);
+  });
+
+
+    expressApp.post('/asignarRutinaUsuario2', (req, res) => {
+
+
+    Promise.all([db(`INSERT INTO rutinaUsuario (idRutina, idUsuario, idProfesor,estado) 
+        VALUES (?,?,1,1)`,[req.body.idRutina, req.body.idUsuario]),db(`UPDATE usuarios 
+        SET estadoRutina = 2 WHERE idUsuario = ?`,[req.body.idUsuario]),db(`SELECT pushKey
+        FROM pushHandler WHERE  idUsuario = ?`,[req.body.idUsuario])]).then((data) => {
+
+      console.log(data);
+      var registrationTokens = [];
+
+      if (data) {
+
+          data[2].forEach(function(element) {
+          console.log(element.pushKey);
+          registrationTokens.push(element.pushKey);
+          });
+
+          if(registrationTokens.length > 0){
+          console.log('d');
+          var message = new gcm.Message({
+              data: {
+              key1: 'test'
+              },
+              notification: {
+                  title: "Rutina Asignada",
+                  icon: "ic_launcher",
+                  body: "Ingresa y mira los ejercicios asignados!"
+              }
+          });
+
+          sender.sendNoRetry(message, { registrationTokens: registrationTokens }, function(err, response) {
+                  if(err) console.error(err);
+                  else    console.log(response);
+                });
+
+        }
+          return res.send(data);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
   expressApp.get('/enviarTexto/:palabraClave/:usuario', (req, res) => {
 
     Promise.all([
@@ -1262,25 +1342,23 @@ console.log(req.body);
     ]).then((data) => {
 
        console.log(data[0]);
-
-
       var registrationTokens = [];
+
         data[0].forEach(function(element) {
           console.log(element.pushKey);
           registrationTokens.push(element.pushKey);
         });
 
-
         if(registrationTokens.length > 0){
           console.log('d');
           var message = new gcm.Message({
               data: {
-              key1: req.params.palabraClave
+              key1: 'test'
               },
               notification: {
-                  title: "Nueva Palabra",
+                  title: "Rutina Asignada",
                   icon: "ic_launcher",
-                  body: " "
+                  body: "Ingresa y mira los ejercicios asignados!"
               }
           });
 
@@ -1292,7 +1370,9 @@ console.log(req.body);
         }
 
       if (!data) res.send().status(500);
-      return res.send({ insertId: 1 });
+
+
+      return res.send(data);
 
     }).catch(err => res.send(err).status(500));
 
