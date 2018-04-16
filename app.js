@@ -1286,10 +1286,12 @@ note.topic = "<your-app-bundle-id>";
 apnProvider.send(note, deviceToken).then( (result) => {
   // see documentation for an explanation of result
   console.log(result);
+  console.log( result.failed[0].response);
+      return res.send(result);
 });
 
 
-          return res.send('ok');
+       
   });
 
 
