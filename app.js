@@ -1254,6 +1254,7 @@ console.log(req.body);
 
 
   expressApp.post('/testPushesC', (req, res) => {
+       var registrationTokens = [];
           var data = [{pushKey:'dFathybQaU0:APA91bEEzj7L2F0dlCznEWfnbQDjD8KDt9eIDP…_o6DkLQNfUdYybdmeJElNoyW2obF0SV1S8Jd0TApoNNhl9zoW'}];
           data.forEach(function(element) {
           console.log(element.pushKey);
