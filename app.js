@@ -1331,18 +1331,50 @@ apnProvider.send(note, deviceToken).then( (result) => {
 
     Promise.all([db(`INSERT INTO rutinaUsuario (idRutina, idUsuario, idProfesor,estado) 
         VALUES (?,?,1,1)`,[req.body.idRutina, req.body.idUsuario]),db(`UPDATE usuarios 
-        SET estadoRutina = 2 WHERE idUsuario = ?`,[req.body.idUsuario]),db(`SELECT pushKey FROM pushHandler
+        SET estadoRutina = 2 WHERE idUsuario = ?`,[req.body.idUsuario]),db(`SELECT * FROM pushHandler
          WHERE  idUsuario = ? AND logOut IS NULL GROUP BY pushKey`,[req.body.idUsuario])]).then((data) => {
 
       console.log(data);
       var registrationTokens = [];
+      var registrationTokensiOs = [];
 
       if (data) {
 
           data[2].forEach(function(element) {
+
           console.log(element.pushKey);
-          registrationTokens.push(element.pushKey);
+
+          element.so == 'Android' ? registrationTokens.push(element.pushKey) : 
+          element.so == 'iOS' : registrationTokensiOs.push(element.pushKey) : console.log('invalidSO');
+          //registrationTokens.push(element.pushKey);
+          //registrationTokensiOs.push(element.pushKey);
           });
+
+              if(registrationTokensiOs.length > 0){
+
+              var note = new apn.Notification();
+
+              note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+              note.badge = 1;
+              note.sound = "ping.aiff";
+              note.alert = "Rutina Asignada, ingresa al app y mira los ejercicios";
+              note.payload = {'messageFrom': 'test1'};
+              note.topic = "com.ionicframework.actionsport";
+
+              registrationTokensiOs.forEach(function(element) {
+              console.log(element);
+              let deviceToken = element;
+              apnProvider.send(note, deviceToken).then( (result) => {
+              // see documentation for an explanation of result
+              console.log(result);
+              //return res.send(result);
+              });
+
+
+              });
+
+
+        }
 
           if(registrationTokens.length > 0){
           console.log('d');
