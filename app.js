@@ -845,7 +845,7 @@ expressApp.post('/nuevaRutina', (req, res) => {
       u.fechaNacimiento, u.imagenUrl, 
       (SELECT p.nombre FROM profesores as p INNER JOIN rutinaUsuario as ru ON p.idProfesor = ru.idProfesor WHERE  ru.idUsuario= u.idUsuario AND ru.estado = 1) as profesor FROM usuarios as u  WHERE u.numeroSocio = ? AND 
       u.codigo = 
-      ? AND u.estado = 1`,[req.body.firstName,req.body.lastName]).then((data) => {
+      ? AND (u.estado = 1 OR u.estado = 0)`,[req.body.firstName,req.body.lastName]).then((data) => {
       console.log(data);
       if (data) {
         return res.send({
