@@ -1052,7 +1052,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
     }).catch(err => res.send(err).status(500));
   });
 
-    expressApp.post('/editarRutinaUsuario', (req, res) => {
+    expressApp.post('/editarRutinaUsuarioOLD', (req, res) => {
 
 
     db(`UPDATE rutinaUsuario set idRutina = ? WHERE idRutinaEstado = ?`,[req.body.idRutina, req.body.idRutinaEstado]).then((data) => {
@@ -1324,6 +1324,83 @@ apnProvider.send(note, deviceToken).then( (result) => {
         }
           return res.send(data);
   });
+   expressApp.post('/editarRutinaUsuario', (req, res) => {
+
+
+    Promise.all([db(`UPDATE rutinaUsuario set idRutina = ? WHERE idRutinaEstado = ?`,[req.body.idRutina, req.body.idRutinaEstado]),db(`UPDATE usuarios 
+        SET estadoRutina = 2 WHERE idUsuario = (SELECT idUsuario FROM rutinaUsuario WHERE idRutinaEstado = ?)`,[req.body.idRutinaEstado]),db(`SELECT * FROM pushHandler
+         WHERE  idUsuario = (SELECT idUsuario FROM rutinaUsuario WHERE idRutinaEstado = ?) AND logOut IS NULL GROUP BY pushKey`,[req.body.idRutinaEstado])]).then((data) => {
+
+      console.log(data);
+      var registrationTokens = [];
+      var registrationTokensiOs = [];
+
+      if (data) {
+
+          data[2].forEach(function(element) {
+
+          console.log(element.pushKey);
+
+          element.so == 'Android' ? registrationTokens.push(element.pushKey) : 
+          element.so == 'iOS' ? registrationTokensiOs.push(element.pushKey) : console.log('invalidSO');
+          //registrationTokens.push(element.pushKey);
+          //registrationTokensiOs.push(element.pushKey);
+          });
+
+              if(registrationTokensiOs.length > 0){
+
+              var note = new apn.Notification();
+
+              note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+              note.badge = 1;
+              note.sound = "ping.aiff";
+              note.alert = "Tu rutina ha sido modificada, ingresa al app y mira los nuevos ejercicios";
+              note.payload = {'messageFrom': 'test1'};
+              note.topic = "com.ionicframework.actionsport";
+
+              registrationTokensiOs.forEach(function(element) {
+              console.log(element);
+              let deviceToken = element;
+              apnProvider.send(note, deviceToken).then( (result) => {
+              // see documentation for an explanation of result
+              console.log(result);
+              //return res.send(result);
+              });
+
+
+              });
+
+
+        }
+
+          if(registrationTokens.length > 0){
+          console.log('d');
+          var message = new gcm.Message({
+              data: {
+              key1: 'test'
+              },
+              notification: {
+                  title: "Rutina Modificada",
+                  icon: "ic_launcher",
+                  body: "Ingresa y mira los nuevos ejercicios asignados!"
+              }
+          });
+
+          sender.sendNoRetry(message, { registrationTokens: registrationTokens }, function(err, response) {
+                  if(err) console.error(err);
+                  else    console.log(response);
+                });
+
+        }
+          return res.send(data[0]);
+      }
+      else{
+        return res.send(err).status(500);
+      }
+      
+    }).catch(err => res.send(err).status(500));
+  });
+
 
 
     expressApp.post('/asignarRutinaUsuario', (req, res) => {
