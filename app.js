@@ -1267,6 +1267,31 @@ console.log(req.body);
   });
 
 
+
+  expressApp.post('/testPushesiOs', (req, res) => {
+
+
+let deviceToken = "7639559c0bea57133cb5ec0f7e45a20d0d5f2b0e97e4d321256b8881c78b2f77"
+
+var note = new apn.Notification();
+
+note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+note.badge = 3;
+note.sound = "ping.aiff";
+note.alert = "\uD83D\uDCE7 \u2709 You have a new message";
+note.payload = {'messageFrom': 'John Appleseed'};
+note.topic = "<your-app-bundle-id>";
+
+
+apnProvider.send(note, deviceToken).then( (result) => {
+  // see documentation for an explanation of result
+});
+
+
+          return res.send(data);
+  });
+
+
   expressApp.post('/testPushesC', (req, res) => {
        var registrationTokens = [];
           var data = [{pushKey:'7639559c0bea57133cb5ec0f7e45a20d0d5f2b0e97e4d321256b8881c78b2f77'}];
